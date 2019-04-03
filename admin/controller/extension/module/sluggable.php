@@ -25,7 +25,7 @@ class ControllerExtensionModuleSluggable extends Controller
         ];
 
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-            $this->model_setting_setting->editSetting('sluggable', $this->request->post);
+            $this->model_setting_setting->editSetting('module_sluggable', $this->request->post);
 
             $this->session->data['success'] = $this->language->get('text_success');
 
@@ -39,7 +39,7 @@ class ControllerExtensionModuleSluggable extends Controller
         }
 
         if ($this->model_setting_setting->getSettingValue('sluggable_status')) {
-            $data['sluggable_status'] = $this->model_setting_setting->getSettingValue('sluggable_status');
+            $data['module_sluggable_status'] = $this->model_setting_setting->getSettingValue('module_sluggable_status');
         }
 
         $data['action'] = $this->url->link('extension/module/sluggable', 'user_token=' . $this->session->data['user_token'], true);
