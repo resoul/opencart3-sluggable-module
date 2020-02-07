@@ -1,4 +1,10 @@
 <?php
+/**
+ * ModelExtensionModuleSluggable SEO helper class
+ *
+ * @author ReSoul <roberts.mark1985@gmail.com>
+ * @version  1.0
+*/
 class ModelExtensionModuleSluggable extends Model
 {
     static $transliteration = [
@@ -14,7 +20,7 @@ class ModelExtensionModuleSluggable extends Model
         'ÿ' => 'y',
     ];
 
-    static $transliterator = 'Any-Latin; Latin-ASCII; [\u0080-\uffff] remove';
+    protected $transl = "Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC; [:Punctuation:] Remove; Lower();";
 
     public function slug($string, $replacement = '-', $lowercase = true)
     {
@@ -26,14 +32,10 @@ class ModelExtensionModuleSluggable extends Model
         return $lowercase ? strtolower($string) : $string;
     }
 
-    protected function transliterate($string, $transliterator = null)
+    protected function transliterate($string)
     {
         if ($this->hasIntl()) {
-            if ($transliterator === null) {
-                $transliterator = static::$transliterator;
-            }
-
-            return transliterator_transliterate($transliterator, $string);
+            return transliterator_transliterate($this->transl, $string);
         }
 
         return strtr($string, static::$transliteration);
